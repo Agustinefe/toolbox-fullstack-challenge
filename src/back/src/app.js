@@ -1,11 +1,12 @@
-const express = require('express')
-const app = express()
-const port = 3000
+import { Server } from './server.js'
+import FilesRouter from './files/files.router.js'
+import FilesController from './files/files.controller.js'
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const filesController = new FilesController()
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+const routers = {
+  files: new FilesRouter(filesController)
+}
+
+const server = new Server(routers)
+server.run()
