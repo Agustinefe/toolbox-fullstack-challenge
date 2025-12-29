@@ -1,14 +1,9 @@
 export default class FilesController {
-  constructor() {
-    this.files = [
-      "file1.txt",
-      "file2.txt",
-      "file3.txt"
-    ]
-
+  constructor ({ getFilesUseCase }) {
     this.getFiles = async (req, res, next) => {
       try {
-        res.status(200).json({files: this.files})
+        const files = await getFilesUseCase.execute()
+        res.status(200).json({ files })
       } catch (error) {
         next(error)
       }

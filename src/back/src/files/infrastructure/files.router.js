@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Router } from 'express'
 
 export default class FilesRouter {
-  constructor(controller) {
+  constructor (controller) {
     this.router = Router()
     this.path = '/files'
 
