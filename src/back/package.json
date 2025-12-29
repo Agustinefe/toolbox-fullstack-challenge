@@ -4,7 +4,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node src/index.js",
     "lint": "npx standard",
     "lint:fix": "npx standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"

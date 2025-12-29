@@ -1,12 +1,16 @@
 import { Server } from './server.js'
-import FilesRouter from './files/files.router.js'
-import FilesController from './files/files.controller.js'
+import FilesRouter from './files/infrastructure/files.router.js'
+import FilesController from './files/infrastructure/files.controller.js'
 
-const filesController = new FilesController()
+const app = async () => {
+  const filesController = new FilesController()
 
-const routers = {
-  files: new FilesRouter(filesController)
+  const routers = {
+    files: new FilesRouter(filesController)
+  }
+  
+  const server = new Server(routers)
+  server.run()
 }
 
-const server = new Server(routers)
-server.run()
+export default app
