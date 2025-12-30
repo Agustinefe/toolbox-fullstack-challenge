@@ -5,6 +5,7 @@ import FilesRouter from '../src/files/infrastructure/files.router.js'
 import FilesController from '../src/files/infrastructure/files.controller.js'
 import GetFilesContentUseCase from '../src/files/application/use-cases/get-files-content.use-case.js'
 import SecretFilesApiError from '../src/files/domain/errors/secret-files-api.error.js'
+import GetFileListUseCase from '../src/files/application/use-cases/get-file-list.use-case.js'
 
 describe('Files E2E Tests', () => {
   let app
@@ -17,7 +18,8 @@ describe('Files E2E Tests', () => {
     }
 
     const getFilesContentUseCase = new GetFilesContentUseCase(mockSecretFilesExternalApi)
-    const filesController = new FilesController({ getFilesContentUseCase })
+    const getFilesListUseCase = new GetFileListUseCase(mockSecretFilesExternalApi)
+    const filesController = new FilesController({ getFilesContentUseCase, getFilesListUseCase })
     const filesRouter = new FilesRouter(filesController)
 
     const server = new Server({ files: filesRouter })
