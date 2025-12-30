@@ -3,7 +3,7 @@ import request from 'supertest'
 import { Server } from '../src/server.js'
 import FilesRouter from '../src/files/infrastructure/files.router.js'
 import FilesController from '../src/files/infrastructure/files.controller.js'
-import GetFilesUseCase from '../src/files/application/use-cases/get-files.use-case.js'
+import GetFilesContentUseCase from '../src/files/application/use-cases/get-files-content.use-case.js'
 import SecretFilesApiError from '../src/files/domain/errors/secret-files-api.error.js'
 
 describe('Files E2E Tests', () => {
@@ -16,8 +16,8 @@ describe('Files E2E Tests', () => {
       getFileContent: async () => ''
     }
 
-    const getFilesUseCase = new GetFilesUseCase(mockSecretFilesExternalApi)
-    const filesController = new FilesController({ getFilesUseCase })
+    const getFilesContentUseCase = new GetFilesContentUseCase(mockSecretFilesExternalApi)
+    const filesController = new FilesController({ getFilesContentUseCase })
     const filesRouter = new FilesRouter(filesController)
 
     const server = new Server({ files: filesRouter })

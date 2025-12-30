@@ -1,6 +1,6 @@
 import FileEntity from '../../domain/entities/file.entity.js'
 
-export default class GetFilesUseCase {
+export default class GetFilesContentUseCase {
   constructor (secretFilesExternalApi) {
     this.secretFilesExternalApi = secretFilesExternalApi
   }

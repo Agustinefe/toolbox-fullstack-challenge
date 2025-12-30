@@ -1,16 +1,16 @@
 import { Server } from './server.js'
 import FilesRouter from './files/infrastructure/files.router.js'
 import FilesController from './files/infrastructure/files.controller.js'
-import GetFilesUseCase from './files/application/use-cases/get-files.use-case.js'
+import GetFilesContentUseCase from './files/application/use-cases/get-files-content.use-case.js'
 import SecretFilesExternalApi from './files/infrastructure/secret-files.external.js'
 
 const app = async () => {
   const secretFilesExternalApi = new SecretFilesExternalApi()
 
-  const getFilesUseCase = new GetFilesUseCase(secretFilesExternalApi)
+  const getFilesContentUseCase = new GetFilesContentUseCase(secretFilesExternalApi)
 
   const filesController = new FilesController({
-    getFilesUseCase
+    getFilesContentUseCase
   })
 
   const routers = {
