@@ -208,5 +208,41 @@ describe('Files E2E Tests', () => {
       expect(response.body.error).to.include('External API failed')
     })
   })
+
+  it('should return only one file when fileName is provided', async () => {
+
+    const mockFilesList = ['test1.csv', 'test2.csv']
+    const mockFileContent1 = 'file,text,number,hex\ntest1.csv,text1,1,abc123'
+    const mockFileContent2 = 'file,text,number,hex\ntest2.csv,text2,2,def456'
+
+    mockSecretFilesExternalApi.getSecretFiles = async () => ({
+      files: mockFilesList
+    })
+
+    mockSecretFilesExternalApi.getFileContent = async (fileName) => {
+      if (fileName === 'test1.csv') return mockFileContent1
+      if (fileName === 'test2.csv') return mockFileContent2
+      return ''
+    }
+
+
+    const response = await request(app)
+      .get('/files/data?fileName=test1.csv')
+      .expect(200)
+
+
+    expect(response.body).to.have.property('files')
+    expect(response.body.files).to.be.an('array')
+    expect(response.body.files).to.have.lengthOf(1)
+    expect(response.body.files[0]).to.have.property('file')
+    expect(response.body.files[0]).to.have.property('lines')
+    expect(response.body.files[0].file).to.equal('test1.csv')
+    expect(response.body.files[0].lines).to.be.an('array')
+    expect(response.body.files[0].lines[0]).to.deep.equal({
+      text: 'text1',
+      number: 1,
+      hex: 'abc123'
+    })
+  })
 })
 
