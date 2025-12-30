@@ -19,6 +19,8 @@ const app = async () => {
 
   const server = new Server(routers)
   server.run()
+
+  return { app: server.app }
 }
 
 export default app
