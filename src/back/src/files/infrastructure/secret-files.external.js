@@ -1,11 +1,12 @@
+import {config} from '../../config/config.js'
 import SecretFilesApiError from '../domain/errors/secret-files-api.error.js'
 import GetSecretFilesResponseValidator from './validators/secret-files-response.validator.js'
 
 export default class SecretFilesExternalApi {
   constructor () {
-    this.baseUrl = 'https://echo-serv.tbxnet.com/v1/secret/'
+    this.baseUrl = config.secretFilesExternalApiUrl
     this.headers = {
-      authorization: 'Bearer aSuperSecretKey'
+      authorization: config.secretFilesExternalApiBearerToken
     }
   }
 

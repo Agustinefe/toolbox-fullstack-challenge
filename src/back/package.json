@@ -4,7 +4,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node --require dotenv/config src/index.js",
     "lint": "npx standard",
     "lint:fix": "npx standard --fix",
     "test": "mocha"
@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   },
   "devDependencies": {
