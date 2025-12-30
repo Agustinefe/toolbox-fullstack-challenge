@@ -19,6 +19,7 @@
   "devDependencies": {
     "chai": "^6.2.2",
     "mocha": "^11.7.5",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "supertest": "^7.1.4"
   }
 }
