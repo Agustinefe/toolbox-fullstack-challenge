@@ -1,8 +1,7 @@
 import SecretFilesApiError from '../../domain/errors/secret-files-api.error.js'
 
 export default class GetSecretFilesResponseValidator {
-
-  static validate(response) {
+  static validate (response) {
     if (!response || typeof response !== 'object') {
       throw new SecretFilesApiError('Invalid response: expected an object')
     }
@@ -13,6 +12,4 @@ export default class GetSecretFilesResponseValidator {
       throw new SecretFilesApiError('Invalid response: all files must be strings')
     }
   }
-
 }
-

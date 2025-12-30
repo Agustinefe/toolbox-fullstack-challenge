@@ -5,6 +5,6 @@ export default class FilesRouter {
     this.router = Router()
     this.path = '/files'
 
-    this.router.get('/', controller.getFiles)
+    this.router.get('/data', controller.getFiles)
   }
 }
