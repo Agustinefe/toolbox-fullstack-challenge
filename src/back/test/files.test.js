@@ -26,6 +26,32 @@ describe('Files E2E Tests', () => {
     app = server.app
   })
 
+  describe('GET /files/list', () => {
+    it('should return 200 with file list when external API responds correctly', async () => {
+      const mockFilesList = ['test1.csv', 'test2.csv']
+      mockSecretFilesExternalApi.getSecretFiles = async () => ({
+        files: mockFilesList
+      })
+
+      const response = await request(app)
+        .get('/files/list')
+        .expect(200)
+      expect(response.body).to.have.property('files')
+      expect(response.body.files).to.be.an('array')
+      expect(response.body.files).to.have.lengthOf(2)
+    })
+
+    it('should return 500 when external API fails to get file list', async () => {
+      const error = new Error('API Error')
+      mockSecretFilesExternalApi.getSecretFiles = async () => {
+        throw error
+      }
+      const response = await request(app)
+        .get('/files/list')
+        .expect(500)
+    })
+  })
+
   describe('GET /files/data', () => {
     it('should return 200 with file list when external API responds correctly', async () => {
 
