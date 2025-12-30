@@ -9,8 +9,8 @@ export default class GetFilesUseCase {
     return await this.secretFilesExternalApi.getFileContent(fileName).then(res => FileEntity.fromCsvString(fileName, res))
   }
 
-  async execute () {
-    const { files } = await this.secretFilesExternalApi.getSecretFiles()
+  async execute (fileName) {
+    const { files } = fileName ? {files: [fileName]} : await this.secretFilesExternalApi.getSecretFiles()
 
     const fileContent = await Promise.allSettled(
       files.map(file => this.getFileContent(file))
