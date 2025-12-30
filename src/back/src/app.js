@@ -5,8 +5,13 @@ import GetFilesUseCase from './files/application/use-cases/get-files.use-case.js
 import SecretFilesExternalApi from './files/infrastructure/secret-files.external.js'
 
 const app = async () => {
+
+  const secretFilesExternalApi = new SecretFilesExternalApi()
+
+  const getFilesUseCase = new GetFilesUseCase(secretFilesExternalApi)
+
   const filesController = new FilesController({
-    getFilesUseCase: new GetFilesUseCase(new SecretFilesExternalApi())
+    getFilesUseCase,
   })
 
   const routers = {

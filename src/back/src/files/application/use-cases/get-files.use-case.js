@@ -4,6 +4,7 @@ export default class GetFilesUseCase {
   }
 
   async execute() {
-    return this.secretFilesExternalApi.getSecretFiles()
+    const {files} = await this.secretFilesExternalApi.getSecretFiles()
+    return files
   }
 }
