@@ -71,12 +71,10 @@ describe('Files E2E Tests', () => {
         if (fileName === 'test2.csv') return mockFileContent2
         return ''
       }
-
-
+      
       const response = await request(app)
         .get('/files/data')
         .expect(200)
-
 
       expect(response.body).to.be.an('array')
       expect(response.body).to.have.lengthOf(2)
