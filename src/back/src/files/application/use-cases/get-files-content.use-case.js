@@ -1,3 +1,4 @@
+import FileNotFoundException from '../../domain/errors/file-not-found.error.js'
 import FileEntity from '../../domain/entities/file.entity.js'
 
 export default class GetFilesContentUseCase {
@@ -10,7 +11,13 @@ export default class GetFilesContentUseCase {
   }
 
   async execute (fileName) {
-    const { files } = fileName ? {files: [fileName]} : await this.secretFilesExternalApi.getSecretFiles()
+
+    if (fileName) {
+      const fileContent = await this.getFileContent(fileName)
+      return [fileContent]
+    }
+
+    const { files } = await this.secretFilesExternalApi.getSecretFiles()
 
     const fileContent = await Promise.allSettled(
       files.map(file => this.getFileContent(file))

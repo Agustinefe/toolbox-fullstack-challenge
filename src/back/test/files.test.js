@@ -4,8 +4,9 @@ import { Server } from '../src/server.js'
 import FilesRouter from '../src/files/infrastructure/files.router.js'
 import FilesController from '../src/files/infrastructure/files.controller.js'
 import GetFilesContentUseCase from '../src/files/application/use-cases/get-files-content.use-case.js'
-import SecretFilesApiError from '../src/files/domain/errors/secret-files-api.error.js'
 import GetFileListUseCase from '../src/files/application/use-cases/get-file-list.use-case.js'
+import FilesModuleErrorMapper from '../src/files/infrastructure/mappers/error.mapper.js'
+import FileNotFoundException from '../src/files/domain/errors/file-not-found.error.js'
 
 describe('Files E2E Tests', () => {
   let app
@@ -19,7 +20,9 @@ describe('Files E2E Tests', () => {
 
     const getFilesContentUseCase = new GetFilesContentUseCase(mockSecretFilesExternalApi)
     const getFilesListUseCase = new GetFileListUseCase(mockSecretFilesExternalApi)
-    const filesController = new FilesController({ getFilesContentUseCase, getFilesListUseCase })
+    const filesModuleErrorMapper = new FilesModuleErrorMapper()
+
+    const filesController = new FilesController({ getFilesContentUseCase, getFilesListUseCase, filesModuleErrorMapper })
     const filesRouter = new FilesRouter(filesController)
 
     const server = new Server({ files: filesRouter })
@@ -75,19 +78,18 @@ describe('Files E2E Tests', () => {
         .expect(200)
 
 
-      expect(response.body).to.have.property('files')
-      expect(response.body.files).to.be.an('array')
-      expect(response.body.files).to.have.lengthOf(2)
-      expect(response.body.files[0]).to.have.property('file')
-      expect(response.body.files[0]).to.have.property('lines')
-      expect(response.body.files[0].file).to.equal('test1.csv')
-      expect(response.body.files[0].lines).to.be.an('array')
-      expect(response.body.files[0].lines[0]).to.deep.equal({
+      expect(response.body).to.be.an('array')
+      expect(response.body).to.have.lengthOf(2)
+      expect(response.body[0]).to.have.property('file')
+      expect(response.body[0]).to.have.property('lines')
+      expect(response.body[0].file).to.equal('test1.csv')
+      expect(response.body[0].lines).to.be.an('array')
+      expect(response.body[0].lines[0]).to.deep.equal({
         text: 'text1',
         number: 1,
         hex: 'abc123'
       })
-      expect(response.body.files[1].lines[0]).to.deep.equal({
+      expect(response.body[1].lines[0]).to.deep.equal({
         text: 'text2',
         number: 2,
         hex: 'def456'
@@ -111,10 +113,10 @@ describe('Files E2E Tests', () => {
         .expect(200)
 
       // Assert
-      expect(response.body.files[0].file).to.equal('valid.csv')
-      expect(response.body.files[0].lines).to.be.an('array')
-      expect(response.body.files[0].lines).to.have.lengthOf(1)
-      expect(response.body.files[0].lines[0]).to.deep.equal({
+      expect(response.body[0].file).to.equal('valid.csv')
+      expect(response.body[0].lines).to.be.an('array')
+      expect(response.body[0].lines).to.have.lengthOf(1)
+      expect(response.body[0].lines[0]).to.deep.equal({
         text: 'Hello World',
         number: 123,
         hex: 'abc123def'
@@ -145,9 +147,9 @@ describe('Files E2E Tests', () => {
         .expect(200)
 
       // Assert
-      expect(response.body.files).to.be.an('array')
+      expect(response.body).to.be.an('array')
       // Should only return valid files
-      const fileNames = response.body.files.map(f => f.file)
+      const fileNames = response.body.map(f => f.file)
       expect(fileNames).to.include('valid.csv')
       expect(fileNames).to.include('another-valid.csv')
     })
@@ -164,8 +166,8 @@ describe('Files E2E Tests', () => {
         .expect(200)
 
       // Assert
-      expect(response.body.files).to.be.an('array')
-      expect(response.body.files).to.have.lengthOf(0)
+      expect(response.body).to.be.an('array')
+      expect(response.body).to.have.lengthOf(0)
     })
 
     it('should handle errors when external API fails to get file list', async () => {
@@ -196,8 +198,8 @@ describe('Files E2E Tests', () => {
         .get('/files/data')
         .expect(200)
 
-      expect(response.body.files).to.be.an('array')
-      expect(response.body.files).to.have.lengthOf(0)
+      expect(response.body).to.be.an('array')
+      expect(response.body).to.have.lengthOf(0)
     })
 
     it('should handle files with empty lines or missing values correctly', async () => {
@@ -214,62 +216,65 @@ describe('Files E2E Tests', () => {
         .get('/files/data')
         .expect(200)
 
-      expect(response.body.files[0].lines).to.be.an('array')
-      expect(response.body.files[0].lines.length).to.be.lessThan(3)
-      expect(response.body.files[0].lines.every(line => line.text && line.number && line.hex)).to.be.true
+      expect(response.body[0].lines).to.be.an('array')
+      expect(response.body[0].lines.length).to.be.lessThan(3)
+      expect(response.body[0].lines.every(line => line.text && line.number && line.hex)).to.be.true
     })
-  })
 
-  describe('External API error handling', () => {
-    it('should propagate SecretFilesApiError correctly', async () => {
-      const apiError = new SecretFilesApiError('External API failed')
+    it('should return only one file when fileName is provided', async () => {
 
-      mockSecretFilesExternalApi.getSecretFiles = async () => {
-        throw apiError
+      const mockFilesList = ['test1.csv', 'test2.csv']
+      const mockFileContent1 = 'file,text,number,hex\ntest1.csv,text1,1,abc123'
+      const mockFileContent2 = 'file,text,number,hex\ntest2.csv,text2,2,def456'
+  
+      mockSecretFilesExternalApi.getSecretFiles = async () => ({
+        files: mockFilesList
+      })
+  
+      mockSecretFilesExternalApi.getFileContent = async (fileName) => {
+        if (fileName === 'test1.csv') return mockFileContent1
+        if (fileName === 'test2.csv') return mockFileContent2
+        return ''
       }
-
+  
+  
       const response = await request(app)
-        .get('/files/data')
-        .expect(500)
-
-      expect(response.body).to.have.property('error')
-      expect(response.body.error).to.include('External API failed')
+        .get('/files/data?fileName=test1.csv')
+        .expect(200)
+  
+  
+      expect(response.body).to.be.an('array')
+      expect(response.body).to.have.lengthOf(1)
+      expect(response.body[0]).to.have.property('file')
+      expect(response.body[0]).to.have.property('lines')
+      expect(response.body[0].file).to.equal('test1.csv')
+      expect(response.body[0].lines).to.be.an('array')
+      expect(response.body[0].lines[0]).to.deep.equal({
+        text: 'text1',
+        number: 1,
+        hex: 'abc123'
+      })
     })
-  })
-
-  it('should return only one file when fileName is provided', async () => {
-
-    const mockFilesList = ['test1.csv', 'test2.csv']
-    const mockFileContent1 = 'file,text,number,hex\ntest1.csv,text1,1,abc123'
-    const mockFileContent2 = 'file,text,number,hex\ntest2.csv,text2,2,def456'
-
-    mockSecretFilesExternalApi.getSecretFiles = async () => ({
-      files: mockFilesList
-    })
-
-    mockSecretFilesExternalApi.getFileContent = async (fileName) => {
-      if (fileName === 'test1.csv') return mockFileContent1
-      if (fileName === 'test2.csv') return mockFileContent2
-      return ''
-    }
-
-
-    const response = await request(app)
-      .get('/files/data?fileName=test1.csv')
-      .expect(200)
-
-
-    expect(response.body).to.have.property('files')
-    expect(response.body.files).to.be.an('array')
-    expect(response.body.files).to.have.lengthOf(1)
-    expect(response.body.files[0]).to.have.property('file')
-    expect(response.body.files[0]).to.have.property('lines')
-    expect(response.body.files[0].file).to.equal('test1.csv')
-    expect(response.body.files[0].lines).to.be.an('array')
-    expect(response.body.files[0].lines[0]).to.deep.equal({
-      text: 'text1',
-      number: 1,
-      hex: 'abc123'
+  
+    it('should throw a Not Found Exception when fileName does not exist', async () => {
+  
+      const mockFilesList = ['test1.csv', 'test2.csv']
+      const mockFileContent1 = 'file,text,number,hex\ntest1.csv,text1,1,abc123'
+      const mockFileContent2 = 'file,text,number,hex\ntest2.csv,text2,2,def456'
+  
+      mockSecretFilesExternalApi.getSecretFiles = async () => ({
+        files: mockFilesList
+      })
+  
+      mockSecretFilesExternalApi.getFileContent = async (fileName) => {
+        if (fileName === 'test1.csv') return mockFileContent1
+        if (fileName === 'test2.csv') return mockFileContent2
+        throw new FileNotFoundException('File not found')
+      }
+  
+      await request(app)
+        .get('/files/data?fileName=test3.csv')
+        .expect(404)
     })
   })
 })

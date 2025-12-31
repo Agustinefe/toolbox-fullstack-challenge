@@ -4,16 +4,18 @@ import FilesController from './files/infrastructure/files.controller.js'
 import GetFilesContentUseCase from './files/application/use-cases/get-files-content.use-case.js'
 import SecretFilesExternalApi from './files/infrastructure/secret-files.external.js'
 import GetFileListUseCase from './files/application/use-cases/get-file-list.use-case.js'
+import FilesModuleErrorMapper from './files/infrastructure/mappers/error.mapper.js'
 
 const app = async () => {
   const secretFilesExternalApi = new SecretFilesExternalApi()
-
+  const filesModuleErrorMapper = new FilesModuleErrorMapper()
   const getFilesContentUseCase = new GetFilesContentUseCase(secretFilesExternalApi)
   const getFilesListUseCase = new GetFileListUseCase(secretFilesExternalApi)
 
   const filesController = new FilesController({
     getFilesContentUseCase,
-    getFilesListUseCase
+    getFilesListUseCase,
+    filesModuleErrorMapper
   })
 
   const routers = {

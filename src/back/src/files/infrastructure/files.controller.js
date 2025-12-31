@@ -1,12 +1,12 @@
 export default class FilesController {
-  constructor ({ getFilesContentUseCase, getFilesListUseCase }) {
+  constructor ({ getFilesContentUseCase, getFilesListUseCase, filesModuleErrorMapper }) {
     this.getFilesContent = async (req, res, next) => {
       try {
         const fileName = req.query.fileName
         const files = await getFilesContentUseCase.execute(fileName)
-        res.status(200).json({ files })
+        res.status(200).json(files)
       } catch (error) {
-        next(error)
+        next(filesModuleErrorMapper.map(error))
       }
     }
 
@@ -15,7 +15,7 @@ export default class FilesController {
         const files = await getFilesListUseCase.execute()
         res.status(200).json({ files })
       } catch (error) {
-        next(error)
+        next(filesModuleErrorMapper.map(error))
       }
     }
   }

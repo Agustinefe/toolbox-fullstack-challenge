@@ -1,6 +1,6 @@
-export default class SecretFilesApiError extends Error {
+export default class SecretFilesApiException extends Error {
   constructor (message) {
     super(message)
-    this.name = 'SecretFilesApiError'
+    this.name = 'SecretFilesApiException'
   }
 }

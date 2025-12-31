@@ -1,5 +1,6 @@
+import FileNotFoundException from '../domain/errors/file-not-found.error.js'
 import {config} from '../../config/config.js'
-import SecretFilesApiError from '../domain/errors/secret-files-api.error.js'
+import SecretFilesApiException from '../domain/errors/secret-files-api.error.js'
 import GetSecretFilesResponseValidator from './validators/secret-files-response.validator.js'
 
 export default class SecretFilesExternalApi {
@@ -15,33 +16,22 @@ export default class SecretFilesExternalApi {
       headers: this.headers
     })
     if (!response.ok) {
-      throw new Error(response.statusText)
+      if (response.status === 404) {
+        throw new FileNotFoundException(response.statusText)
+      }
+      throw new SecretFilesApiException(response.statusText)
     }
     return response
   }
 
   async getSecretFiles () {
-    try {
-      const response = await this.get('files').then(res => res.json())
-      GetSecretFilesResponseValidator.validate(response)
-      return response
-    } catch (error) {
-      if (error instanceof SecretFilesApiError) {
-        throw error
-      }
-      throw new SecretFilesApiError(error.message)
-    }
+    const response = await this.get('files').then(res => res.json())
+    GetSecretFilesResponseValidator.validate(response)
+    return response
   }
 
   async getFileContent (fileName) {
-    try {
-      const response = await this.get(`file/${fileName}`).then(res => res.text())
-      return response
-    } catch (error) {
-      if (error instanceof SecretFilesApiError) {
-        throw error
-      }
-      throw new SecretFilesApiError(error.message)
-    }
+    const response = await this.get(`file/${fileName}`).then(res => res.text())
+    return response
   }
 }
