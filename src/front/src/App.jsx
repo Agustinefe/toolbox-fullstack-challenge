@@ -1,17 +1,17 @@
-import { Navbar, Container, Table } from "react-bootstrap";
+import { Navbar, Container, Table } from 'react-bootstrap';
 
 const dummyData = [
   {
-    fileName: "test1.csv",
-    text: "text1",
+    fileName: 'test1.csv',
+    text: 'text1',
     number: 3423423431,
-    hex: "bdt723bd3d7623bd6523df3265dv",
+    hex: 'bdt723bd3d7623bd6523df3265dv',
   },
   {
-    fileName: "test2.csv",
-    text: "text2",
+    fileName: 'test2.csv',
+    text: 'text2',
     number: 3423423432,
-    hex: "bdt723bd3d7623bd6523df3265dv",
+    hex: 'bdt723bd3d7623bd6523df3265dv',
   },
 ];
 
