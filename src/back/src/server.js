@@ -1,13 +1,45 @@
 import express from 'express'
 import cors from 'cors'
+import { config } from './config/config.js';
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
+
+const options = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Toolbox fullstack challenge API",
+      version: "1.0.0",
+      description:
+        "This is the API for the Toolbox fullstack challenge",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+    },
+    servers: [
+      {
+        url: `http://localhost:${config.port || 3000}`,
+      },
+    ],
+  },
+  apis: ["./src/files/infrastructure/files.router.js"],
+};
 
 export class Server {
   constructor (routers) {
     this.app = express()
-    this.port = process.env.PORT || 3000
+    this.port = config.port || 3000
 
     this.app.use(cors())
     this.app.use(express.json())
+
+    const specs = swaggerJsdoc(options);
+    this.app.use(
+      "/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(specs)
+    );
 
     this.app.use(routers.files.path, routers.files.router)
 

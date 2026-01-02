@@ -7,5 +7,8 @@ export const config = {
   },
   get secretFilesExternalApiBearerToken () {
     return process.env.SECRET_FILES_EXTERNAL_API_BEARER_TOKEN
+  },
+  get port () {
+    return parseInt(process.env.PORT)
   }
 }
