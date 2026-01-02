@@ -35,7 +35,6 @@ import { Router } from 'express'
  * @swagger
  * tags:
  *   name: Files
- *   description: API for the files module
  */
 export default class FilesRouter {
   constructor (controller) {

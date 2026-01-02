@@ -31,6 +31,7 @@
 - Standard (For linting and formatting).
 - Mocha, Chai, Supertest (For E2E testing).
 - Docker / Docker compose
+- Swagger (For API documentation)
 
 ## Technical and bussiness decisions made
 
@@ -93,6 +94,10 @@ Example:
 - Error handling could be improved (I.E handle more external api error cases)
 - Continuous integration and tests coverage could be made using CircleCI and CodeCov.
 - Deployment with Heroku could be done.
+
+## Route
+
+- Local: [API Swagger](http://localhost:3001/api-docs) (once api is up and running)
 
 ## Env vars that should be defined
 

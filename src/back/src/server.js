@@ -12,16 +12,7 @@ const options = {
       version: "1.0.0",
       description:
         "This is the API for the Toolbox fullstack challenge",
-      license: {
-        name: "MIT",
-        url: "https://spdx.org/licenses/MIT.html",
-      },
     },
-    servers: [
-      {
-        url: `http://localhost:${config.port || 3000}`,
-      },
-    ],
   },
   apis: ["./src/files/infrastructure/files.router.js"],
 };
