@@ -24,7 +24,10 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (error) {
-      notifyError({ title: 'Error', content: 'Failed to load files' });
+      notifyError({
+        title: 'Error',
+        content: error.status === 404 ? 'File not found' : error.message,
+      });
     }
   }, [error]);
 

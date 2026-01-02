@@ -10,12 +10,17 @@ export const FilesContext = createContext({
 });
 
 export const FilesProvider = ({ children }) => {
+  const params = new URLSearchParams(window.location.search);
+
+  const fileName = params.get('fileName');
+
   const {
     data: files = [],
     error,
     loading,
     reload,
   } = useApiFetch(ENDPOINTS.FILES.DATA, {
+    searchParams: { fileName },
     parseResponse: (data) => {
       return data.reduce((acc, file) => {
         acc.push(
