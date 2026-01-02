@@ -32,6 +32,7 @@ export default [
         document: 'readonly',
         fetch: 'readonly',
         URLSearchParams: 'readonly',
+        URL: 'readonly',
       },
     },
     settings: {
