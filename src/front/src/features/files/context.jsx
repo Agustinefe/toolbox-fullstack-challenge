@@ -1,6 +1,6 @@
 import { ENDPOINTS } from '../../shared/services/endpoints';
 import { useApiFetch } from '../../shared/hooks/useApiFetch';
-import { createContext } from 'react';
+import { createContext, useCallback } from 'react';
 
 export const FilesContext = createContext({
   fileData: {
@@ -41,7 +41,7 @@ export const FilesProvider = ({ children }) => {
       ),
   });
 
-  const onChangeFileName = (filename) => {
+  const onChangeFileName = useCallback((filename) => {
     const params = new URLSearchParams(window.location.search);
 
     if (filename === '') {
@@ -51,7 +51,7 @@ export const FilesProvider = ({ children }) => {
     }
 
     window.location.search = `?${params.toString()}`;
-  };
+  }, []);
 
   return (
     <FilesContext.Provider
