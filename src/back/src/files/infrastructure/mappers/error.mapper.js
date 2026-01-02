@@ -1,15 +1,15 @@
-import InternalServerError from "../errors/internal-server-error.js";
-import NotFoundException from "../errors/not-found-exception.error.js";
+import InternalServerError from '../errors/internal-server-error.js'
+import NotFoundException from '../errors/not-found-exception.error.js'
 
 export default class FilesModuleErrorMapper {
-  constructor() {
+  constructor () {
     this.mapper = new Map([
-      ["FileNotFoundException", NotFoundException],
-      ["InternalServerError", InternalServerError],
+      ['FileNotFoundException', NotFoundException],
+      ['InternalServerError', InternalServerError]
     ])
   }
 
-  map(error) {
+  map (error) {
     const ErrorClass = this.mapper.get(error.name)
     if (!ErrorClass) {
       return new InternalServerError(error.message)

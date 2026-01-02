@@ -22,13 +22,13 @@ export default class FileEntity {
   }
 
   static parseLineToObject (line, headers) {
-    return{
+    return {
       text: line[0],
       number: parseInt(line[1]),
       hex: line[2]
     }
   }
-  
+
   static fromCsvString (name, content) {
     const { headers, data } = FileEntity.parseCsvString(content)
     const lines = data.map(line => FileEntity.parseLineToObject(line, headers))

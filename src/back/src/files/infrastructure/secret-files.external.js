@@ -1,5 +1,5 @@
 import FileNotFoundException from '../domain/errors/file-not-found.error.js'
-import {config} from '../../config/config.js'
+import { config } from '../../config/config.js'
 import SecretFilesApiException from '../domain/errors/secret-files-api.error.js'
 import GetSecretFilesResponseValidator from './validators/secret-files-response.validator.js'
 

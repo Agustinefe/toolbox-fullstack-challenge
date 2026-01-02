@@ -1,4 +1,3 @@
-import FileNotFoundException from '../../domain/errors/file-not-found.error.js'
 import FileEntity from '../../domain/entities/file.entity.js'
 
 export default class GetFilesContentUseCase {
@@ -11,7 +10,6 @@ export default class GetFilesContentUseCase {
   }
 
   async execute (fileName) {
-
     if (fileName) {
       const fileContent = await this.getFileContent(fileName)
       return [fileContent]
