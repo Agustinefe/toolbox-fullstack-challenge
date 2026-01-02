@@ -18,7 +18,7 @@ const dummyData = [
 
 export default function HomeScreen() {
   const { files, loading, error, reload } = useFileContext();
-  console.log(files);
+
   return (
     <>
       <Navbar bg="danger" variant="dark" expand="lg" className="mb-4">
@@ -26,9 +26,9 @@ export default function HomeScreen() {
           <Navbar.Brand className="fw-bold">React Test App</Navbar.Brand>
         </Container>
       </Navbar>
-      <Container fluid>
+      <Container fluid style={{ paddingLeft: '40px', paddingRight: '40px' }}>
         <Table striped bordered hover>
-          <thead>
+          <thead style={{ borderBottom: '2px solid #000' }}>
             <tr>
               <th>File Name</th>
               <th>Text</th>
