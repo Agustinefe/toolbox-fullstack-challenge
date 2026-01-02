@@ -16,6 +16,7 @@ export class Server {
     this.app.use(routers.files.path, routers.files.router)
 
     this.app.use((err, req, res, next) => {
+      console.log(err);
       res.status(err.statusCode || 500).json({
         error: err.message || 'Internal Server Error'
       })
