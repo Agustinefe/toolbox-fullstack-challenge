@@ -30,6 +30,8 @@ export default [
         exports: 'readonly',
         window: 'readonly',
         document: 'readonly',
+        fetch: 'readonly',
+        URLSearchParams: 'readonly',
       },
     },
     settings: {
