@@ -1,0 +1,12 @@
+version: '3'
+services:
+    api-test:
+        build: ./src/back
+        command: sh -c "npm run test"
+        restart: unless-stopped
+        environment:
+            SECRET_FILES_EXTERNAL_API_URL: "${SECRET_FILES_EXTERNAL_API_URL}"
+            SECRET_FILES_EXTERNAL_API_BEARER_TOKEN: "${SECRET_FILES_EXTERNAL_API_BEARER_TOKEN}"
+            PORT: "${API_EXTERNAL_PORT}"
+        ports:
+            - ${API_EXTERNAL_PORT}:${API_EXTERNAL_PORT}

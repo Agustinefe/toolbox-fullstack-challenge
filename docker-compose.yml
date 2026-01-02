@@ -2,6 +2,7 @@ version: '3'
 services:
     api:
         build: ./src/back
+        command: sh -c "npm run start"
         restart: unless-stopped
         environment:
             SECRET_FILES_EXTERNAL_API_URL: "${SECRET_FILES_EXTERNAL_API_URL}"
@@ -15,6 +16,7 @@ services:
             context: ./src/front
             args:
                 REACT_APP_API_URL: "http://api:${API_EXTERNAL_PORT}"
+        command: sh -c "serve -l 3000 dist/"
         restart: unless-stopped
         ports:
             - 3000:3000
