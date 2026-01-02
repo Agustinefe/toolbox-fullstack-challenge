@@ -43,7 +43,7 @@
 
 ### Entities
 
-#### FileLine
+#### FileContent
 
 | Field name | Type   |     Meaning      |
 | ---------- | ------ | :--------------: |
@@ -53,10 +53,10 @@
 
 #### File
 
-| Field name | Type       |     Meaning      |
-| ---------- | ---------- | :--------------: |
-| file       | string     |  The file name   |
-| lines      | FileLine[] | The file content |
+| Field name | Type          |     Meaning      |
+| ---------- | ------------- | :--------------: |
+| file       | string        |  The file name   |
+| lines      | FileContent[] | The file content |
 
 Example:
 
