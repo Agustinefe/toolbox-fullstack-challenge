@@ -13,7 +13,7 @@ export default class SecretFilesExternalApi {
 
   async performRequest (path) {
     try {
-      const response = await fetch(`${this.baseUrl}${path}`, {
+      const response = await fetch(path, {
         headers: this.headers
       })
       return response
@@ -21,7 +21,6 @@ export default class SecretFilesExternalApi {
       console.error(error)
       throw new SecretFilesApiException("Could not perform request to external API")
     }
-
   }
 
   async get (path) {

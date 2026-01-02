@@ -3,13 +3,13 @@ import { useFileContext } from '../features/files/hooks/useFileContext';
 import {
   Navbar,
   Container,
-  Table,
   Spinner,
   Form,
   Stack,
   Placeholder,
 } from 'react-bootstrap';
 import { useEffect } from 'react';
+import FileTable from '../features/files/components/FileTable';
 
 export default function HomeScreen() {
   const { fileData, fileList } = useFileContext();
@@ -40,9 +40,10 @@ export default function HomeScreen() {
             <Placeholder size="lg" />
           ) : (
             <Form.Select
-              aria-label="Default select example"
+              aria-label="Filename select"
               value={fileList.value}
               onChange={fileList.onChange}
+              disabled={fileList.error}
             >
               {fileList.data &&
                 fileList.data.map(({ label, value }) => (
@@ -67,27 +68,7 @@ export default function HomeScreen() {
               />
             </div>
           ) : (
-            <Table striped bordered hover>
-              <thead style={{ borderBottom: '2px solid #000' }}>
-                <tr>
-                  <th>File Name</th>
-                  <th>Text</th>
-                  <th>Number</th>
-                  <th>Hex</th>
-                </tr>
-              </thead>
-              <tbody>
-                {fileData.data &&
-                  fileData.data.map((d, idx) => (
-                    <tr key={idx}>
-                      <td>{d.fileName}</td>
-                      <td>{d.text}</td>
-                      <td>{d.number}</td>
-                      <td>{d.hex}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
+            <FileTable data={fileData.data} />
           )}
         </Stack>
       </Container>
