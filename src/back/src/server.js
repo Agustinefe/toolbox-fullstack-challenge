@@ -9,10 +9,6 @@ export class Server {
     this.app.use(cors())
     this.app.use(express.json())
 
-    this.app.get('/', (req, res) => {
-      res.send('Hello World!')
-    })
-
     this.app.use(routers.files.path, routers.files.router)
 
     this.app.use((err, req, res, next) => {
