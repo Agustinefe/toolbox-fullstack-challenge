@@ -5,7 +5,7 @@
 - Docker installed without SUDO Permission
 - Docker compose installed without SUDO
 - Ports free: 3000 and 3001
-- [Jobberwocky external source](https://github.com/avatureta/jobberwocky-extra-source-v2) up and running.
+- Secret files API up and running
 
 ## How to run the APP
 
@@ -20,11 +20,6 @@ chmod 711 ./up_dev.sh
 chmod 711 ./up_test.sh
 ./up_test.sh
 ```
-
-# Tech stack
-
-- dotenv
-- supertest
 
 # Improvements
 
