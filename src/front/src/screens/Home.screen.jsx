@@ -1,5 +1,7 @@
+import { useToast } from '../shared/hooks/useToast';
 import { useFileContext } from '../features/files/hooks/useFileContext';
 import { Navbar, Container, Table, Spinner } from 'react-bootstrap';
+import { useEffect } from 'react';
 
 const dummyData = [
   {
@@ -18,6 +20,13 @@ const dummyData = [
 
 export default function HomeScreen() {
   const { files, loading, error, reload } = useFileContext();
+  const { notifyError } = useToast();
+
+  useEffect(() => {
+    if (error) {
+      notifyError({ title: 'Error', content: 'Failed to load files' });
+    }
+  }, [error]);
 
   return (
     <>
