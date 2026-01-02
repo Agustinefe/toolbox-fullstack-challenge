@@ -1,5 +1,5 @@
 import { useFileContext } from '../features/files/hooks/useFileContext';
-import { Navbar, Container, Table } from 'react-bootstrap';
+import { Navbar, Container, Table, Spinner } from 'react-bootstrap';
 
 const dummyData = [
   {
@@ -27,27 +27,43 @@ export default function HomeScreen() {
         </Container>
       </Navbar>
       <Container fluid style={{ paddingLeft: '40px', paddingRight: '40px' }}>
-        <Table striped bordered hover>
-          <thead style={{ borderBottom: '2px solid #000' }}>
-            <tr>
-              <th>File Name</th>
-              <th>Text</th>
-              <th>Number</th>
-              <th>Hex</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files &&
-              files.map((d, idx) => (
-                <tr key={idx}>
-                  <td>{d.fileName}</td>
-                  <td>{d.text}</td>
-                  <td>{d.number}</td>
-                  <td>{d.hex}</td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
+        {loading ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '70vh',
+            }}
+          >
+            <Spinner
+              animation="border"
+              style={{ width: '4rem', height: '4rem' }}
+            />
+          </div>
+        ) : (
+          <Table striped bordered hover>
+            <thead style={{ borderBottom: '2px solid #000' }}>
+              <tr>
+                <th>File Name</th>
+                <th>Text</th>
+                <th>Number</th>
+                <th>Hex</th>
+              </tr>
+            </thead>
+            <tbody>
+              {files &&
+                files.map((d, idx) => (
+                  <tr key={idx}>
+                    <td>{d.fileName}</td>
+                    <td>{d.text}</td>
+                    <td>{d.number}</td>
+                    <td>{d.hex}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+        )}
       </Container>
     </>
   );
