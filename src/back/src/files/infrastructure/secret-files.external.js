@@ -26,10 +26,14 @@ export default class SecretFilesExternalApi {
   async get (path) {
     const response = await this.performRequest(`${this.baseUrl}${path}`)
     if (!response.ok) {
-      if (response.status === 404) {
-        throw new FileNotFoundException(response.statusText)
+      switch (response.status) {
+        case 404:
+          throw new FileNotFoundException(response.statusText)
+        case 401:
+          throw new SecretFilesApiException("Unauthorized access to secret files API")
+        default:
+          throw new SecretFilesApiException(response.statusText)
       }
-      throw new SecretFilesApiException(response.statusText)
     }
     return response
   }
