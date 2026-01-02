@@ -1,4 +1,6 @@
-const BASE_URL = process.env.REACT_APP_API_URL
+import { config } from "../config";
+
+const BASE_URL = config.apiUrl
 
 async function request(method, endpoint, searchParams = {}, options = {}) {
   const config = {
