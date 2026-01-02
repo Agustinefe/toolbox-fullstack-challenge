@@ -18,15 +18,10 @@
 - `npm run lint:fix`: runs StandardJs linter and runs the automated fix.
 - `npm run test`: runs the E2E tests.
 
-## Improvements
-
-- Use Zod or Joi to create schemas and validate DTO's.
-- Axios could be used to improve external api calls.
-
 ## Techs
 
-- ExpressJs: 5.
-- Node: 18.
+- ExpressJs 5.
+- Node 18.
 - Dotenv (To simplify the env vars setting).
 - Standard (For linting and formatting).
 - Mocha, Chai, Supertest (For E2E testing).

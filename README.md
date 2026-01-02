@@ -21,9 +21,14 @@ chmod 711 ./up_test.sh
 ./up_test.sh
 ```
 
-# Improvements
+## Backend
 
-- We could use Zod or Joi to create schemas and validate DTO's.
-- Axios could be used to improve external api calls.
-- Everything related to HTTP (errors, mappers) could be moved to a common module, in case the project scales and other feature modules are required.
-- Find a way to change the selected file without re-rendering the select component again.
+You can find the backend documentation in its [README](./src/back/README.md).
+
+## Frontend
+
+You can find the frontend documentation in its [README](./src/front/README.md).
+
+## Env vars that should be defined
+
+To find an example of the values you can use [.env.example](.env.example).
