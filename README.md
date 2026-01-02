@@ -1,4 +1,11 @@
-# toolbox-fullstack-challenge
+# Toolbox Fullstack Challenge
+
+## Pre-Requisites
+
+- Docker installed without SUDO Permission
+- Docker compose installed without SUDO
+- Ports free: 3000 and 3001
+- [Jobberwocky external source](https://github.com/avatureta/jobberwocky-extra-source-v2) up and running.
 
 ## How to run the APP
 

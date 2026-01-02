@@ -11,10 +11,21 @@ export default class SecretFilesExternalApi {
     }
   }
 
+  async performRequest (path) {
+    try {
+      const response = await fetch(`${this.baseUrl}${path}`, {
+        headers: this.headers
+      })
+      return response
+    } catch (error) {
+      console.error(error)
+      throw new SecretFilesApiException("Could not perform request to external API")
+    }
+
+  }
+
   async get (path) {
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      headers: this.headers
-    })
+    const response = await this.performRequest(`${this.baseUrl}${path}`)
     if (!response.ok) {
       if (response.status === 404) {
         throw new FileNotFoundException(response.statusText)
