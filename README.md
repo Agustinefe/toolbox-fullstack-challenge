@@ -1,5 +1,19 @@
 # toolbox-fullstack-challenge
 
+## How to run the APP
+
+```
+chmod 711 ./up_dev.sh
+./up_dev.sh
+```
+
+## How to run the tests
+
+```
+chmod 711 ./up_test.sh
+./up_test.sh
+```
+
 # Tech stack
 
 - dotenv
