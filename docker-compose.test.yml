@@ -10,3 +10,13 @@ services:
             PORT: "${API_EXTERNAL_PORT}"
         ports:
             - ${API_EXTERNAL_PORT}:${API_EXTERNAL_PORT}
+    
+    web-test:
+        build:
+            context: ./src/front
+            args:
+                REACT_APP_API_URL: "http://api:${API_EXTERNAL_PORT}"
+        command: sh -c "npm run test"
+        restart: unless-stopped
+        ports:
+            - 3000:3000
