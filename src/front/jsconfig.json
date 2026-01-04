@@ -17,7 +17,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "checkJs": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": ["jest", "@testing-library/jest-dom"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

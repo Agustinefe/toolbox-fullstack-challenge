@@ -25,7 +25,7 @@ export default function HomeScreen() {
             : fileData.error.message,
       });
     }
-  }, [fileData.error]);
+  }, [fileData.error, notifyError]);
 
   return (
     <>
@@ -37,7 +37,7 @@ export default function HomeScreen() {
       <Container fluid style={{ paddingLeft: '40px', paddingRight: '40px' }}>
         <Stack gap={4}>
           {fileList.loading ? (
-            <Placeholder size="lg" />
+            <Placeholder size="lg" data-testid="loading-file-list" />
           ) : (
             <Form.Select
               aria-label="Filename select"
@@ -65,6 +65,7 @@ export default function HomeScreen() {
               <Spinner
                 animation="border"
                 style={{ width: '4rem', height: '4rem' }}
+                data-testid="loading-file-data"
               />
             </div>
           ) : (
