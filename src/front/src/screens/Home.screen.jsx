@@ -25,7 +25,8 @@ export default function HomeScreen() {
             : fileData.error.message,
       });
     }
-  }, [fileData.error, notifyError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileData.error]);
 
   return (
     <>

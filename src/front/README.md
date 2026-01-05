@@ -43,13 +43,6 @@ From Home page you can:
 - Docker: To make the project portable.
 - Unit/Integration testing: Since we are testing only the observable, it's useful to make unit tests over the isolated components. Also it's necessary to make integration tests to make sure that the components works together propertly. E2E tests have not been done since there are better tools to make them, like Cypress or Playwright.
 
-## Assumptions
-
-- When fetching all the files content and some file failed to fetch its content, it's discarded from the file content list.
-  - When fetching a single file content and it fails, a 404 error is thrown.
-  - If the file that failed is from the file list, it is also discarded, or a 303 error is thrown, depending on the case.
-- When fetching all the files content and some file is empty, it's discarded from the file content list.
-
 ## Areas to improve
 
 - Schema validation packages like Zod or Joi could be used to create schemas and validate DTO's.

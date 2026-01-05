@@ -77,7 +77,7 @@ Example:
 
 - When fetching all the files content and some file failed to fetch its content, it's discarded from the file content list.
   - When fetching a single file content and it fails, a 404 error is thrown.
-  - If the file that failed is from the file list, it is also discarded, or a 303 error is thrown, depending on the case.
+  - If the file that failed is from the file list, it is also discarded, or a 404 error is thrown, depending on the case.
 - When fetching all the files content and some file is empty, it's discarded from the file content list.
 
 ## Areas to improve
