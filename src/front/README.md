@@ -51,9 +51,8 @@ From Home page you can:
 
 ## Areas to improve
 
-- Unit testing could be made.
 - Schema validation packages like Zod or Joi could be used to create schemas and validate DTO's.
-- Axios could be used to improve external api calls. For a better API access managemente, Tanstack Query could be use.
+- Axios could be used to improve external api calls. For a better API access management, Tanstack Query could be use (like introducing caching for API requests).
 - Tanstack Router could be used for a better project scaling.
   - I should find a way to change the selected file without re-rendering the select component again. Using Tanstack router would solve automatically this problem.
 - Continuous integration and tests coverage could be made using CircleCI and CodeCov.
