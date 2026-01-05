@@ -41,6 +41,7 @@ From Home page you can:
   - Shared: Everything that is shared between modules is stored here (components, hooks, services).
   - Screens: contains the screen components. Could be organized following a file-based routing.
 - Docker: To make the project portable.
+- Unit/Integration testing: Since we are testing only the observable, it's useful to make unit tests over the isolated components. Also it's necessary to make integration tests to make sure that the components works together propertly. E2E tests have not been done since there are better tools to make them, like Cypress or Playwright.
 
 ## Assumptions
 
