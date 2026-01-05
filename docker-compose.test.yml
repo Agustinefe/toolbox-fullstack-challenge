@@ -3,7 +3,6 @@ services:
     api-test:
         build: ./src/back
         command: sh -c "npm run test"
-        restart: unless-stopped
         environment:
             SECRET_FILES_EXTERNAL_API_URL: "${SECRET_FILES_EXTERNAL_API_URL}"
             SECRET_FILES_EXTERNAL_API_BEARER_TOKEN: "${SECRET_FILES_EXTERNAL_API_BEARER_TOKEN}"
@@ -17,6 +16,5 @@ services:
             args:
                 REACT_APP_API_URL: "http://api:${API_EXTERNAL_PORT}"
         command: sh -c "npm run test"
-        restart: unless-stopped
         ports:
             - 3000:3000
