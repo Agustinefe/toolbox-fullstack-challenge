@@ -21,6 +21,7 @@ From Home page you can:
 - `npm run build`: builds the app for production.
 - `npm run lint`: runs Eslint linter.
 - `npm run lint:fix`: runs Eslint linter and runs the automated fix.
+- `npm run test`: runs the Unit and Integration tests.
 
 ## Techs
 
